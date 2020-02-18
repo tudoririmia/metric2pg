@@ -12,9 +12,30 @@ enum List printUsage(int argc, char **argv)
         namespace po = boost::program_options;
         po::options_description desc("Options");
 
-        desc.add_options()("help", "Print help messages")("create", "Create a new RRD")("update", "Update a RRD")("updatev", "A verbose version of update")("graph", "Generate a graph from one or several RRD")("graphv", "generate a graph from one or several RRD"
-                                                                                                                                                                                                                           "with meta data printed before the graph")("dump", "Dump a RRD to XML")("restore", "Restore an RRD file from its XML form")("last", "Show last update time for RRD")("lastupdate", "Returns the most recent datum stored for each DS in an RRD")("first", "Show first update time for RRA within an RRD")("info", "Returns the configuration and status of the RRD")("list", "returns the list of RRDs")("fetch", "Fetch data out of an RRD")("tune", "Modify some basic properties of an RRD")("resize", "Alter the length of one of the RRAs in an RRD")("xport", "Generate XML dump from one or several RRD")("flushcached", "Flush cached data out to an RRD file")("ls", "List all *.rrd files in current directory")("cd", "Change the current directory")("mkdir", "Create new directory")("pwd", "Returns the current working directory")("quit", "Closing a session in remote mode");
-
+        desc.add_options()  ("help", "Print help messages")
+                            ("create", "Create a new RRD")
+                            ("update", "Update a RRD")
+                            ("updatev", "A verbose version of update")
+                            ("graph", "Generate a graph from one or several RRD")
+                            ("graphv", "generate a graph from one or several RRD" 
+                            "with meta data printed before the graph")
+                            ("dump", "Dump a RRD to XML")
+                            ("restore", "Restore an RRD file from its XML form")
+                            ("last", "Show last update time for RRD")
+                            ("lastupdate", "Returns the most recent datum stored for each DS in an RRD")
+                            ("first", "Show first update time for RRA within an RRD")
+                            ("info", "Returns the configuration and status of the RRD")
+                            ("list", "returns the list of RRDs")
+                            ("fetch", "Fetch data out of an RRD")
+                            ("tune", "Modify some basic properties of an RRD")
+                            ("resize", "Alter the length of one of the RRAs in an RRD")
+                            ("xport", "Generate XML dump from one or several RRD")
+                            ("flushcached", "Flush cached data out to an RRD file")
+                            ("ls", "List all *.rrd files in current directory")
+                            ("cd", "Change the current directory")
+                            ("mkdir", "Create new directory")
+                            ("pwd", "Returns the current working directory")
+                            ("quit", "Closing a session in remote mode");
         po::variables_map vm;
         try
         {
