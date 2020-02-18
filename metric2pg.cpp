@@ -452,14 +452,20 @@ enum List printUsage(int argc, char **argv)
 int main(int argc, char **argv)
 {
 
-   List cmd = printUsage(argc, argv);
-
+    List cmd = printUsage(argc, argv);
+    int return_code;
+    
     switch (cmd)
     {
     case C_CREATE:
-        std::cout << "Not implemented yet" << std::endl;
+        return_code = metric2pg_create(argc, argv);
         break;
-    
+    case C_UPDATE:
+        return_code = metric2pg_update(argc, argv);
+        break;
+    case C_FETCH:
+        return_code = metric2pg_fetch(argc, argv);
+        break;
     case C_DUMP:
         std::cout << "Not implemented yet" << std::endl;
         break;
@@ -479,12 +485,6 @@ int main(int argc, char **argv)
         std::cout << "Not implemented yet" << std::endl;
         break;
     case C_FIRST:
-        std::cout << "Not implemented yet" << std::endl;
-        break;
-    case C_UPDATE:
-        std::cout << "Not implemented yet" << std::endl;
-        break;
-    case C_FETCH:
         std::cout << "Not implemented yet" << std::endl;
         break;
     case C_GRAPH:
