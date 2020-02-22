@@ -1,10 +1,20 @@
 #include <iostream>
 #include <string>
+#include <list>
+#include <iterator>
 #include "metric2pg.hpp"
 #include <boost/program_options.hpp>
 using namespace std;
 
-enum List printUsage(int argc, char **argv)
+void showlist (list <char*> l) {
+    list <char*> :: iterator it;
+    for (it = l.begin(); it != l.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << endl;
+}
+
+enum List printUsage(int argc, char *argv[])
 {
 
     try
@@ -446,28 +456,33 @@ enum List printUsage(int argc, char **argv)
     return C_NONE;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 
     List cmd = printUsage(argc, argv);
     int return_code;
+    std::list <char*> arguments;
+
+    for (int i = 2; i < argc; i++) {
+        arguments.push_back(argv[i]);
+    }
 
     switch (cmd)
     {
     case C_CREATE:
-        return_code = metric2pg_create(argc, argv);
+        return_code = metric2pg_create(arguments);
         if (return_code == -1) {
             return -1;
         }
         break;
     case C_UPDATE:
-        return_code = metric2pg_update(argc, argv);
+        return_code = metric2pg_update(arguments);
         if (return_code == -1) {
             return -1;
         }
         break;
     case C_FETCH:
-        return_code = metric2pg_fetch(argc, argv);
+        return_code = metric2pg_fetch(arguments);
         if (return_code == -1) {
             return -1;
         }
