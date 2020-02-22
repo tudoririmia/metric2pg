@@ -11,7 +11,7 @@ enum List { C_NONE, C_CREATE, C_DUMP, C_INFO, C_LIST, C_RESTORE, C_LAST,
         C_UPDATEV, C_FLUSHCACHED
     };
 
-void showlist (std::list <char*> l);
+void showlist (std::list <char*> l); 
 int metric2pg_create (std::list <char*> arguments);
 int metric2pg_update (std::list <char*> arguments);
 int metric2pg_fetch (std::list <char*> arguments);
