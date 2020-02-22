@@ -1,4 +1,8 @@
 #include <iostream>
+#include <string>
+#include <list>
+#include <iterator>
+
 
 enum List { C_NONE, C_CREATE, C_DUMP, C_INFO, C_LIST, C_RESTORE, C_LAST,
         C_LASTUPDATE, C_FIRST, C_UPDATE, C_FETCH, C_GRAPH, C_GRAPHV,
@@ -7,7 +11,7 @@ enum List { C_NONE, C_CREATE, C_DUMP, C_INFO, C_LIST, C_RESTORE, C_LAST,
         C_UPDATEV, C_FLUSHCACHED
     };
 
-
-int metric2pg_create (int argc, char**argv);
-int metric2pg_update (int argc, char**argv);
-int metric2pg_fetch (int argc, char**argv);
+void showlist (std::list <char*> l);
+int metric2pg_create (std::list <char*> arguments);
+int metric2pg_update (std::list <char*> arguments);
+int metric2pg_fetch (std::list <char*> arguments);
