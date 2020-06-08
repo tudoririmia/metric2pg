@@ -2,9 +2,11 @@
 #include <string>
 #include <list>
 #include <iterator>
+#include <pqxx/pqxx>
 #include "metric2pg.hpp"
 #include <boost/program_options.hpp>
 using namespace std;
+using namespace pqxx;
 
 void showlist (list <char*> l) {
     list <char*> :: iterator it;
