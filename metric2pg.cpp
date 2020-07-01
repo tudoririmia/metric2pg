@@ -27,6 +27,7 @@ enum List printUsage(int argc, char *argv[])
         desc.add_options()  ("help", "Print help messages")
                             ("create", "Create a new RRD")
                             ("update", "Update a RRD")
+                            ("drop", "Remove a database")
                             ("updatev", "A verbose version of update")
                             ("graph", "Generate a graph from one or several RRD")
                             ("graphv", "generate a graph from one or several RRD" 
@@ -72,31 +73,16 @@ enum List printUsage(int argc, char *argv[])
 
             if (vm.count("create"))
             {
-                std::cout << "\tmetric2pg create filename [--start|-b start time]\n"
-                             "\t\t[--step|-s step]\n"
-                             "\t\t[--template|-t template-file]\n"
-                             "\t\t[--source|-r source-file]\n"
-                             "\t\t[--no-overwrite|-O]\n"
-                             "\t\t[--daemon|-d address]\n"
-                             "\t\t[DS:ds-name:DST:dst arguments]\n"
-                             "\t\t[RRA:CF:cf arguments]\n"
-                          << std::endl;
-
                 return C_CREATE;
             }
 
             if (vm.count("update"))
             {
-                std::cout << "\tmetric2pg update filename\n"
-                             "\t\t[--template|-t ds-name:ds-name:...]\n"
-                             "\t\t[--skip-past-updates|-s]\n"
-                             "\t\t[--daemon|-d <address>]\n"
-                             "\t\ttime|N:value[:value...]\n\n"
-                             "\t\tat-time@value[:value...]\n\n"
-                             "\t\t[ time:value[:value...] ..]\n"
-                          << std::endl;
-
-                return C_UPDATE;
+                 return C_UPDATE;
+            }
+             if (vm.count("drop"))
+            {
+                return C_DROP;
             }
 
             if (vm.count("updatev"))
@@ -282,7 +268,7 @@ enum List printUsage(int argc, char *argv[])
 
             if (vm.count("lastupdate"))
             {
-                std::cout << "\tmetric2pg lastupdate filename.rrd\n"
+                std::cout << "\t./metric2pg lastupdate filename.rrd\n"
                              "\t\t[--daemon|-d address]\n"
                           << std::endl;
 
@@ -315,13 +301,6 @@ enum List printUsage(int argc, char *argv[])
 
             if (vm.count("fetch"))
             {
-                std::cout << "\tmetric2pg fetch filename.rrd CF\n"
-                             "\t\t[-r|--resolution resolution]\n"
-                             "\t\t[-s|--start start] [-e|--end end]\n"
-                             "\t\t[-a|--align-start]\n"
-                             "\t\t[-d|--daemon <address>]\n"
-                          << std::endl;
-
                 return C_FETCH;
             }
 
@@ -489,6 +468,12 @@ int main(int argc, char *argv[])
             return -1;
         }
         break;
+    case C_DROP:
+        return_code = metric2pg_drop(arguments);
+        if (return_code == -1) {
+            return -1;
+        }
+        break;        
     case C_DUMP:
         std::cout << "Not implemented yet" << std::endl;
         break;
