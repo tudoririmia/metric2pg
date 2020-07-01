@@ -60,13 +60,9 @@ std::list <char*> tokenize(char* arg) {
 int metric2pg_create (std::list <char*> arguments) {
 
     /*std::cout << "Not implemented yet" << std::endl;*/
-    std::cout << "The arguments are: " << std::endl;
-    showlist(arguments);
-    
     // user:pass@database#tabela
     char* fst = arguments.front();
     
-    std::cout << "Tokenize: " << std::endl;
     std::list <char*> tokenized = tokenize(fst);
 
     char* table = tokenized.back();
@@ -83,6 +79,9 @@ int metric2pg_create (std::list <char*> arguments) {
     string str3 = str2 + "password = " + std::string(pass) + " ";
     string conn_string = str3 + "hostaddr = 127.0.0.1 port = 5432";
 
+    arguments.pop_front();
+    char* field = arguments.front();
+
     try {
       
       pqxx::connection C(conn_string);
@@ -93,21 +92,23 @@ int metric2pg_create (std::list <char*> arguments) {
          return 1;
       }
 
-       /* Create SQL statement */
-/*    string sql = "CREATE TABLE COMPANY2("  \
-      "ID INT PRIMARY KEY     NOT NULL," \
-      "NAME           TEXT    NOT NULL," \
-      "AGE            INT     NOT NULL," \
-      "ADDRESS        CHAR(50)," \
-      "SALARY         REAL );";
+    /* Create SQL statement */
+      string sql = "CREATE TABLE " + std::string(table) + "(time    TIMESTAMP     NOT NULL," \
+                                                            +std::string(field) + "    DOUBLE PRECISION    NULL);";
 
-       Create a transactional object. */
-      // work W(C);
-      
+      work W(C);
+    
       /* Execute SQL query */
-      // W.exec( sql );
-      //W.commit();
-      //cout << "Table created successfully" << endl;
+    
+      W.exec( sql );
+      cout << "Table created successfully" << endl;
+
+      /* Create hypertable */
+      string hyper = "SELECT create_hypertable('" + std::string(table) + "', 'time')"; 
+
+      W.exec(hyper);
+      W.commit();
+      cout << "Hypertable created successfully" << endl;
       
       C.disconnect ();
    } catch (const std::exception &e) {
